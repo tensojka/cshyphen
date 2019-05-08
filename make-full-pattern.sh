@@ -2,25 +2,25 @@
 # -*- coding: utf-8 -*-
 
 #
-# Dieses Skript generiert deutsche Trennmuster.
+# This script executes multiple hyphenation passes over source data.
+# Adapted from German hyphenation patterns project: git://repo.or.cz/wortliste.git
 #
-# Aufruf:
+# Usage:
 #
-#   sh make-full-pattern.sh words.hyphenated german.tr
+#   sh make-full-pattern.sh DICTIONARY_FILE TRANSLATE_FILE
 #
 #
-# Eingabe: words.hyphenated   Liste von getrennten Wörtern.
-#          german.tr          Translationsdatei für patgen.
+# Input:   DICTIONARY_FILE    a list of hyphenated words
+#          TRANSLATE_FILE     for patgen, see patgen manpage
 #
-# Ausgabe: pattmp.[1-8]       patgen-Resultate.
-#          pattern.[0-8]      Trennmuster -- pattern.8 ist die finale
-#                             Trennmusterdatei.
-#          pattern.[1-8].log  Log-Dateien.
-#          pattern.rules      Die patgen-Parameter in kompakter Form.
+# Output:  pattmp.[1-8]       patgen results
+#          pattern.[0-8]      hyphenation patterns -- pattern.8 is the final one
+#          pattern.[1-8].log  log data
+#          pattern.rules      patgen parameters used
 #
 
 
-# Die Parameter für patgen für die Level eins bis acht.
+# Parameters for PATGEN, passes 1 to 8
 
 hyph_start_finish[1]='1 1'
 hyph_start_finish[2]='2 2'
@@ -50,11 +50,10 @@ good_bad_thres[7]='1 4 1'
 good_bad_thres[8]='1 8 1'
 
 
-# Erzeuge leere Startmuster, lösche Datei mit patgen-Parametern.
 rm -f pattern.0 pattern.rules
 touch pattern.0
 
-for i in 1 ; do
+for i in 1 2 3 4 5 6 7 8; do
 
   # Erzeuge Muster des aktuellen Levels.  Steuereingaben werden patgen
   # mittels einer Pipe übergeben.
@@ -72,5 +71,3 @@ for i in 1 ; do
   >> pattern.rules
 
 done
-
-# eof
