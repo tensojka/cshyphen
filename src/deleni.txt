@@ -20965,7 +20965,6 @@ Gironde;Gi-ronde
 girondský;gi-rond-ský
 Giscard;Gis-card
 Gisela;Gi-se-la
-
 Gita;Gi-ta
 gitana;gi-ta-na
 Giuseppe;Giu-se-p-pe
@@ -23362,8 +23361,6 @@ hodkovický;hod-ko-vic-ký
 Hodkovičky;Hod-ko-vič-ky
 hodkovičský;hod-ko-vič-ský
 hodlat;hod-lat
-Hódmezővásárhely;Hód-me-ző-vá-sár-he-ly
-hódmezővásárhelyský;hód-me-ző-vá-sár-he-ly-ský
 hodně;hod-ně
 hodnocení;hod-no-ce-ní
 hodnostář;hod-no-s-tář
@@ -29701,7 +29698,6 @@ Jenišov;Je-ni-šov
 jenišovský;je-ni-šov-ský
 jen;jen
 jenjen;jen-jen
-Jenő;Je-nő
 jenský;jen-ský
 Jenštejn;Jen-štejn
 jenštejnský;jen-štejn-ský
