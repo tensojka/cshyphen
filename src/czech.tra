@@ -1,0 +1,51 @@
+ 2 2
+%% This is the file czech.tra
+%% defining the letters used for generating Czech hyphenation patterns
+%% with patgen.
+%% encoding: ISO-8859-2
+%%
+%% created by Ondøej Sojka <ondrej.sojka@gmail.com
+ a A
+ á Á
+ b B
+ c C
+ ç Ç
+ è È
+ d D
+ ï Ï
+ e E
+ ì Ì
+ é É
+ f F
+ g G
+ h H
+ i I
+ í Í
+ j J
+ k K
+ l L
+ m M
+ n N
+ ò Ò
+ o O
+ ó Ó
+ ö Ö
+ p P
+ q Q
+ r R
+ ø Ø
+ s S
+ ¹ ©
+ t T
+ » «
+ u U
+ ù Ù
+ ú Ú
+ ü Ü
+ v V
+ w W
+ x X
+ y Y
+ ý Ý
+ z Z
+ ¾ ®
