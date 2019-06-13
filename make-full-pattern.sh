@@ -20,6 +20,9 @@
 #
 
 
+set -e
+set -o pipefail
+
 # Parameters for PATGEN, passes 1 to 8
 
 hyph_start_finish[1]='1 1'
