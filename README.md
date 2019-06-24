@@ -12,3 +12,10 @@ Carefully check encodings; Unicode can't be used since patgen expects each chara
 ## Usage
 
 `make`
+
+## Intermediate formats in use
+
+- .wlh 
+    - hyphenated word list
+- .wls
+    - newline separated list of unhyphenated words
