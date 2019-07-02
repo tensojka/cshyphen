@@ -21,7 +21,7 @@ out/%: src/%
 	"1 1" \
 	"1 1 1" \
 	"y" \
-	| ../patgen $< $(PATTERNTOUSE) /dev/null czech.tra
+	| ./patgen $< $(PATTERNTOUSE) /dev/null czech.tra
 	mv pattmp.1 $@
 	recode ISO-8859-2..UTF8 $<
 	recode ISO-8859-2..UTF8 $@

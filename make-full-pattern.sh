@@ -38,7 +38,7 @@ for i in 1 2 3 4 5 6 7 8; do
                           "${pat_start_finish[$i]}" \
                           "${good_bad_thres[$i]}" \
                           "y" \
-  | patgen $1 pattern.$(($i-1)) pattern.$i $2 \
+  | ./patgen $1 pattern.$(($i-1)) pattern.$i $2 \
   | tee pattern.$i.log
 
   # Sammle verwendete patgen-Parameter in Datei.
