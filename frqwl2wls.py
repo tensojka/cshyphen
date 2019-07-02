@@ -1,6 +1,8 @@
 # Generate a .wls (wordlist separated by newlines) from one or more frqwl
 
 import argparse
+import copy
+from typing import Dict
 
 def has_forbidden_character(string):
     try:
@@ -9,8 +11,11 @@ def has_forbidden_character(string):
         return True
     return False
 
-def parse_frqwl(filename, minfreq=0):
-    wl = set()
+def parse_frqwl(filename: str, inp1=None) -> Dict[str,int]:
+    if inp1 != None:
+        freq = copy.copy(inp1)
+    else:
+        freq = dict()
     with open(filename) as inpf:
         ln = 0
 
@@ -19,12 +24,17 @@ def parse_frqwl(filename, minfreq=0):
                 continue
             split = line.split("\t")
             try:
-                if int(split[1]) > minfreq:
-                    wl.add(split[0])
+                if inp1 != None and split[0] not in inp1:
+                    continue
+                if split[0] in freq:
+                    freq[split[0]] = freq[split[0]] + int(split[1])
+                else:
+                    freq[split[0]] = int(split[1])
+                    
             except IndexError:
                 raise ValueError("Invalid format of "+filename+" on line "+str(ln))
             ln += 1
-    return wl
+    return freq
 
 parser = argparse.ArgumentParser()
 parser.add_argument('outf', type=str,
@@ -42,22 +52,31 @@ parser.add_argument("--minfreq", type=int, nargs='?',
 parser.add_argument("-v", action='store_true',
                     help='verbose')
 
+parser.add_argument("-k", action='store_true',
+                    help='output frequencies')
+
 args = parser.parse_args()
 
-inp1 = parse_frqwl(args.inpf, args.minfreq)
+inp1 = parse_frqwl(args.inpf)
 if args.inpf2 != None:
-    inp2 = parse_frqwl(args.inpf2, args.minfreq)
-    out = inp1.intersection(inp2)
+    freqmap = parse_frqwl(args.inpf2, inp1)
 else:
-    out = inp1
+    freqmap = inp1
+
+out = [] # type: List[str]
+
+for word, frequency in freqmap.items():
+    if frequency >= args.minfreq:
+        out.append(word)
+
+with open(args.outf, 'w') as of:
+    out.sort()
+    for word in out:
+        if args.k:
+            of.write(word+"\t"+str(freqmap[word])+"\n")
+        else:
+            of.write(word+"\n")
 
 if args.v:
     print("Words in input file 1: "+str(len(inp1)))
-    print("Words in input file 2: "+str(len(inp2)))
     print("Words in output: "+str(len(out)))
-
-with open(args.outf, 'w') as of:
-    out = list(out)
-    out.sort()
-    for word in out:
-        of.write(word+"\n")
