@@ -1,9 +1,9 @@
 PYTHON=python3
 PATTERNTOUSE=out/czhyphen1-libreoffice.pat
 
-runpatgen: out/dict.wlh czech.tra make-full-pattern.sh
-	rm out/pattern.*
-	(cd out && sh ../make-full-pattern.sh dict ../czech.tra)
+# Make cheatsheet :)
+# $@ output
+# $< input
 
 out/%: src/%
 	cp $< $@
@@ -23,8 +23,10 @@ out/%: src/%
 %.wls: %.wl
 	$(PYTHON) wl2wls.py $@ $<
 
-out/cstenten.wls: src/cstenten17.frqwl src/cstenten12.frqwl frqwl2wls.py
-	$(PYTHON) frqwl2wls.py $@ src/cstenten17.frqwl src/cstenten12.frqwl --minfreq=100
+%.wlh: %.wl wl2wlh.py
+	$(PYTHON) wl2wlh.py $@ $<
+#	sed -i -e 's/-/=/g' $@
 
 clean:
 	rm -rf out
+	mkdir out
