@@ -5,11 +5,17 @@ PATTERNTOUSE=out/czhyphen1-libreoffice.pat
 # $@ output
 # $< input
 
+runpatgen: out/ujc.wlh czech.tra make-full-pattern.sh
+	rm -f out/pattern.*
+	recode UTF8..ISO-8859-2 $<
+	(cd out && sh ../make-full-pattern.sh ujc.wlh ../czech.tra ../src/german.par)
+	recode ISO-8859-2..UTF8 $<
+
 out/%: src/%
 	cp $< $@
 
 # hyphenate
-%.wlh: %.wls
+%.wlh: %.wls $(PATTERNTOUSE)
 	recode UTF8..ISO-8859-2 $<
 	printf "%s\n%s\n%s\n%s" "1 1" \
 	"1 1" \
@@ -19,8 +25,9 @@ out/%: src/%
 	mv pattmp.1 $@
 	recode ISO-8859-2..UTF8 $<
 	recode ISO-8859-2..UTF8 $@
+	sed -i -e 's/-/=/g' $@
 
-%.wls: %.wl
+%.wls: %.wl wl2wls.py
 	$(PYTHON) wl2wls.py $@ $<
 
 %.wlh: %.wl wl2wlh.py
