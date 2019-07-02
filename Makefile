@@ -5,7 +5,7 @@ PATTERNTOUSE=out/czhyphen1-libreoffice.pat
 # $@ output
 # $< input
 
-runpatgen: out/ujc.wlh czech.tra make-full-pattern.sh
+runpatgen: out/ujc.wlh czech.tra make-full-pattern.sh src/german.par
 	rm -f out/pattern.*
 	recode UTF8..ISO-8859-2 $<
 	(cd out && sh ../make-full-pattern.sh ujc.wlh ../czech.tra ../src/german.par)
