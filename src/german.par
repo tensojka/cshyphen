@@ -1,3 +1,5 @@
+# This file is sourced by bash.
+
 hyph_start_finish[1]='1 1'
 hyph_start_finish[2]='2 2'
 hyph_start_finish[3]='3 3'
