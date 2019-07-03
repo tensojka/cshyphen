@@ -7,6 +7,17 @@ WORDLISTTOUSE=out/cstenten.wlh
 # $< input
 
 .SECONDARY: 
+
+%.wleval: %.pat out/ujc.wlh
+	recode UTF8..ISO-8859-2 out/ujc.wlh
+	printf "%s\n%s\n%s\n%s" "5 5" \
+	"1 9" \
+	"1 1 100" \
+	"n" \
+	| ./patgen out/ujc.wlh $< /dev/null czech.tra \
+	| tee $@
+	recode ISO-8859-2..UTF8 out/ujc.wlh
+
 %.pat: %.par $(WORDLISTTOUSE) czech.tra make-full-pattern.sh
 	rm -f out/pattern.*
 	recode UTF8..ISO-8859-2 $(WORDLISTTOUSE)
