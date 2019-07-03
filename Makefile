@@ -1,15 +1,17 @@
 PYTHON=python3
 PATTERNTOUSE=out/czhyphen1-libreoffice.pat
+WORDLISTTOUSE=out/cstenten.wlh
 
 # Make cheatsheet :)
 # $@ output
 # $< input
 
-runpatgen: out/ujc.wlh czech.tra make-full-pattern.sh src/german.par
+%.pat: %.par $(WORDLISTTOUSE) czech.tra make-full-pattern.sh
 	rm -f out/pattern.*
-	recode UTF8..ISO-8859-2 $<
-	(cd out && sh ../make-full-pattern.sh ujc.wlh ../czech.tra ../src/german.par)
-	recode ISO-8859-2..UTF8 $<
+	recode UTF8..ISO-8859-2 $(WORDLISTTOUSE)
+	(cd out && sh ../make-full-pattern.sh ../$(WORDLISTTOUSE) ../czech.tra ../$<)
+	recode ISO-8859-2..UTF8 $(WORDLISTTOUSE)
+	mv out/pattern.final $@
 
 out/%: src/%
 	cp $< $@
@@ -25,7 +27,8 @@ out/%: src/%
 	mv pattmp.1 $@
 	recode ISO-8859-2..UTF8 $<
 	recode ISO-8859-2..UTF8 $@
-	sed -i -e 's/-/=/g' $@
+	#sed -i -e 's/-/=/g' $@
+	sed -i -e 's/\./-/g' $@
 
 %.wls: %.wl wl2wls.py
 	$(PYTHON) wl2wls.py $@ $<
