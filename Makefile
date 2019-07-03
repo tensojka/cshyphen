@@ -6,6 +6,7 @@ WORDLISTTOUSE=out/cstenten.wlh
 # $@ output
 # $< input
 
+.SECONDARY: 
 %.pat: %.par $(WORDLISTTOUSE) czech.tra make-full-pattern.sh
 	rm -f out/pattern.*
 	recode UTF8..ISO-8859-2 $(WORDLISTTOUSE)
