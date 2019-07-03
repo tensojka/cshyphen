@@ -27,7 +27,6 @@ out/%: src/%
 	mv pattmp.1 $@
 	recode ISO-8859-2..UTF8 $<
 	recode ISO-8859-2..UTF8 $@
-	#sed -i -e 's/-/=/g' $@
 	sed -i -e 's/\./-/g' $@
 
 %.wls: %.wl wl2wls.py
@@ -35,7 +34,6 @@ out/%: src/%
 
 %.wlh: %.wl wl2wlh.py
 	$(PYTHON) wl2wlh.py $@ $<
-#	sed -i -e 's/-/=/g' $@
 
 out/cstenten%.frqwl: src/cstenten%.frqwl # lowercase
 	cp $< $@
