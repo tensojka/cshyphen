@@ -31,11 +31,6 @@ touch pattern.0
 
 for i in 1 2 3 4 5 6 7 8; do
 
-  if [ "$i" -ge "${#good_bad_thres[@]}" ]
-  then
-    break
-  fi
-
   # Erzeuge Muster des aktuellen Levels.  Steuereingaben werden patgen
   # mittels einer Pipe übergeben.
   printf "%s\n%s\n%s\n%s" "${hyph_start_finish[$i]}" \
@@ -44,6 +39,11 @@ for i in 1 2 3 4 5 6 7 8; do
                           "y" \
   | ../patgen $1 pattern.$(($i-1)) pattern.$i $2 \
   | tee pattern.$i.log
+
+  if [ "$i" -ge "${#good_bad_thres[@]}" ]
+  then
+    break
+  fi
 
 done
 
