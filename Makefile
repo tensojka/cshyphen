@@ -1,5 +1,5 @@
 PYTHON=python3
-PATTERNTOUSE=out/czhyphen1-libreoffice.pat
+PATTERNTOUSE=out/czhyphen1-patched.pat
 WORDLISTTOUSE=out/cstenten.wlh
 
 # Make cheatsheet :)
@@ -10,9 +10,9 @@ WORDLISTTOUSE=out/cstenten.wlh
 
 %.wleval: %.pat out/ujc.wlh
 	recode UTF8..ISO-8859-2 out/ujc.wlh
-	printf "%s\n%s\n%s\n%s" "5 5" \
+	printf "%s\n%s\n%s\n%s" "1 1" \
 	"1 9" \
-	"1 1 100" \
+	"1 1 10000" \
 	"n" \
 	| ./patgen out/ujc.wlh $< /dev/null czech.tra \
 	| tee $@
