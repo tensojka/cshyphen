@@ -21,7 +21,7 @@ WORDLISTTOUSE=out/cstenten.wlh
 %.pat: %.par $(WORDLISTTOUSE) czech.tra make-full-pattern.sh
 	rm -f out/pattern.*
 	recode UTF8..ISO-8859-2 $(WORDLISTTOUSE)
-	(cd out && sh ../make-full-pattern.sh ../$(WORDLISTTOUSE) ../czech.tra ../$<)
+	(cd out && bash ../make-full-pattern.sh ../$(WORDLISTTOUSE) ../czech.tra ../$<)
 	recode ISO-8859-2..UTF8 $(WORDLISTTOUSE)
 	mv out/pattern.final $@
 
