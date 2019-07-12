@@ -15,7 +15,11 @@ def parse_line(text: str) -> str:
     if text[0] == "+":
         return text[1:]
     if text[0] == "@" or text[0] == "!" or text[0] == "$":
-        return text.split("\t")[1]
+        w = text.split("\t")[1]
+        if "#" in w:
+            return w.split("#")[0].rstrip()
+        else:
+            return w
     raise ValueError("Invalid input: "+text)
 
 parser = argparse.ArgumentParser()
