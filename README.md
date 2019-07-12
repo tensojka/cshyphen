@@ -8,14 +8,32 @@ Carefully check encodings; Unicode can't be used since patgen expects each chara
 
 - recode (`dnf install recode`)
 - python3
+- make
+- 
 
 ## Usage
 
 `make`
 
-## Intermediate formats in use
+## Filename endings in use
+
+See sketch.jpg for a graphical overview.
 
 - .wlh 
     - hyphenated word list
 - .wls
     - newline separated list of unhyphenated words
+- .wl
+    - word;wo=rd
+    - the format to be edited by humans
+- .par
+    - parameters for patgen
+- .pat
+    - generated pattern
+- .wleval
+    - patgen output after validation pass
+    - contains validation statistics
+
+## Naming scheme
+
+lang-type-subtype-version.\['wl'/'pat'/'wleval]
