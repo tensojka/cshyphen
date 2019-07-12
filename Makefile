@@ -13,7 +13,7 @@ WORDLISTTOUSE=out/cstenten.wlh
 	printf "%s\n%s\n%s\n%s" "1 1" \
 	"1 9" \
 	"1 1 10000" \
-	"n" \
+	"y" \
 	| ./patgen out/ujc.wlh $< /dev/null czech.tra \
 	| tee $@
 	recode ISO-8859-2..UTF8 out/ujc.wlh
