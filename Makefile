@@ -1,22 +1,19 @@
 PYTHON=python3
 PATTERNTOUSE=out/czhyphen1-patched.pat
 WORDLISTTOUSE=out/cstenten.wlh
-
-# Make cheatsheet :)
-# $@ output
-# $< input
+VALIDATIONWL=src/cs-lemma-ujc-4.wlh
 
 .SECONDARY: 
 
-%.wleval: %.pat out/ujc.wlh
-	recode UTF8..ISO-8859-2 out/ujc.wlh
+%.wleval: %.pat $(VALIDATIONWL)
+	recode UTF8..ISO-8859-2 $(VALIDATIONWL)
 	printf "%s\n%s\n%s\n%s" "1 1" \
 	"1 9" \
 	"1 1 10000" \
 	"y" \
-	| ./patgen out/ujc.wlh $< /dev/null czech.tra \
+	| ./patgen $(VALIDATIONWL) $< /dev/null czech.tra \
 	| tee $@
-	recode ISO-8859-2..UTF8 out/ujc.wlh
+	recode ISO-8859-2..UTF8 $(VALIDATIONWL)
 
 %.pat: %.par $(WORDLISTTOUSE) czech.tra make-full-pattern.sh
 	rm -f out/pattern.*
