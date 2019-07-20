@@ -38,6 +38,12 @@ with open(args.inpf) as inpf:
         words.add(parse_line(line))
 
 assert len(words) > 0, "no words found"
+
+try:
+    words.remove(None)
+except KeyError:
+    pass
+
 words_ordered = list(words)
 words_ordered.sort()
 assert len(words) == len(words_ordered)
