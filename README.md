@@ -1,19 +1,15 @@
-# Czech hyphenation patterns
+# Language-independent system for hyphenation pattern generation with `patgen`
+
+See paper [Unreasonable Effectiveness of Pattern Generation](paper.pdf).
 
 Inspired by German hyphenation patterns, see [git repo](http://repo.or.cz/wortliste.git).
 
-Carefully check encodings; Unicode can't be used since patgen expects each character to be 1 byte. Output encoding is latin-2. To convert files back to the 21st century, use `recode ISO-8859-2..UTF8 FILENAME`.
-
 ## Prerequisites
 
-- recode (`dnf install recode`)
+- GNU coreutils & friends
+- recode
 - python3
 - make
-- 
-
-## Usage
-
-`make`
 
 ## Filename endings in use
 
@@ -36,4 +32,6 @@ See sketch.jpg for a graphical overview.
 
 ## Naming scheme
 
-lang-type-subtype-version.\['wl'/'pat'/'wleval]
+lang-type-subtype-version.\[wl/pat/wleval]
+
+.,$s/\([plkmnjhbgtvfžřčšrcdxszwq][\*\.-]\)s[\*\.-]ký/\1ský/g
