@@ -1,6 +1,6 @@
 PYTHON=python3
 PATTERNTOUSE=out/czhyphen1-patched.pat
-WORDLISTTOUSE=out/cstenten.wlh
+WORDLISTTOUSE=out/cstentenfreq.wlh
 VALIDATIONWL=src/cs-lemma-ujc-4.wlh
 
 .SECONDARY: 
@@ -53,6 +53,19 @@ out/cstenten.wls: out/cstenten17.frqwl out/cstenten12.frqwl frqwl2wls.py
 
 out/cstenten.frqwl: out/cstenten17.frqwl out/cstenten12.frqwl frqwl2wls.py
 	$(PYTHON) frqwl2wls.py -k $@ out/cstenten17.frqwl out/cstenten12.frqwl --minfreq=100
+
+src/cs-all-cstenten.wls: cstenten.out #majka (morphological analyzer) output
+	grep '^[$@]' /tmp/cstenten.out \
+	| sed -e 's/\t/\n/g' \
+	| sed -e '/[$@]/d' \
+	| grep -xv '[0-9]*' > src/czbf.wls
+	make -s out/ujc.wls
+	cat out/ujc.wls >> src/czbf.wls
+	sort -u -o src/czbf.wls src/czbf.wls
+
+
+out/cstentenfreq.wlh: out/cstenten.wlh
+	python3 add-frequencies-to-wlh.py src/cstenten17.frqwl $< $@
 
 clean:
 	rm -rf out
