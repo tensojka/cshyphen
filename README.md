@@ -35,3 +35,7 @@ See sketch.jpg for a graphical overview.
 lang-type-subtype-version.\[wl/pat/wleval]
 
 .,$s/\([plkmnjhbgtvfžřčšrcdxszwq][\*\.-]\)s[\*\.-]ký/\1ský/g
+
+## Licenses
+
+The project is available under the MIT license. Files src/cs-all-cstenten.wls, src/cs-all-cstenten.wl and src/cstenten1[2,7].frqwl are available under the license [CC-BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/3.0/legalcode). For commercial use of the cstenten word lists, contact inquiries@sketchengine.eu.
