@@ -63,6 +63,8 @@ src/cs-all-cstenten.wls: cstenten.out #majka (morphological analyzer) output
 	cat out/ujc.wls >> src/czbf.wls
 	sort -u -o src/czbf.wls src/czbf.wls
 
+src/cs-all-cstenten.wlh:
+	touch $@
 
 out/cstentenfreq.wlh: out/cstenten.wlh
 	python3 add-frequencies-to-wlh.py src/cstenten17.frqwl $< $@
