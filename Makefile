@@ -1,6 +1,6 @@
 PYTHON=python3
-PATTERNTOUSE=out/czhyphen1-patched.pat
-WORDLISTTOUSE=out/cstentenfreq.wlh
+PATTERNTOUSE=out/cs-sojka-correctoptimized.pat
+WORDLISTTOUSE=src/cs-all-cstenten.wlh
 VALIDATIONWL=src/cs-lemma-ujc-4.wlh
 
 .SECONDARY: 
@@ -53,6 +53,16 @@ out/cstenten.wls: out/cstenten17.frqwl out/cstenten12.frqwl frqwl2wls.py
 
 out/cstenten.frqwl: out/cstenten17.frqwl out/cstenten12.frqwl frqwl2wls.py
 	$(PYTHON) frqwl2wls.py -k $@ out/cstenten17.frqwl out/cstenten12.frqwl --minfreq=100
+
+out/cssk-all-weighted.wlh: out/cssk-all-join.wlh out/cssk-all-intersect.wlh src/sk-corrections.wlh generate-weighted-czechoslovak-wl.py
+	python3 generate-weighted-czechoslovak-wl.py
+
+csskhyphen.pat: src/cs-sojka-sizeoptimized.par out/cssk-all-weighted.wlh # make sure PATTERNTOUSE is good czech patterns
+	rm -f out/pattern.*
+	recode UTF8..ISO-8859-2 out/cssk-all-weighted.wlh
+	(cd out && bash ../make-full-pattern.sh cssk-all-weighted.wlh ../czech.tra ../$<)
+	recode ISO-8859-2..UTF8 out/cssk-all-weighted.wlh
+	mv out/pattern.final $@
 
 src/cs-all-cstenten.wls: cstenten.out #majka (morphological analyzer) output
 	grep '^[$@]' /tmp/cstenten.out \
