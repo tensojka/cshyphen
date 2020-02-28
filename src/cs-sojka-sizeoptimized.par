@@ -8,7 +8,7 @@ hyph_start_finish[4]='4 4'
 pat_start_finish[1]='1 3'
 pat_start_finish[2]='2 4'
 pat_start_finish[3]='3 5'
-pat_start_finish[4]='4 6'
+pat_start_finish[4]='4 7'
 
 
 good_bad_thres[1]='1 2 20'
