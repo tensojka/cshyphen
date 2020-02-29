@@ -54,15 +54,21 @@ out/cstenten%.frqwl: src/cstenten%.frqwl # lowercase
 	sed -i -e 's/./\L\0/g' $@
 
 out/cstenten.wls: out/cstenten17.frqwl out/cstenten12.frqwl frqwl2wls.py
-	$(PYTHON) frqwl2wls.py $@ out/cstenten17.frqwl out/cstenten12.frqwl --minfreq=100
+	$(PYTHON) frqwl2wls.py $@ $< out/cstenten12.frqwl --minfreq=100
 
-out/cstenten.frqwl: out/cstenten17.frqwl out/cstenten12.frqwl frqwl2wls.py
-	$(PYTHON) frqwl2wls.py -k $@ out/cstenten17.frqwl out/cstenten12.frqwl --minfreq=100
+out/sktenten.wls: out/sktenten11.frqwl frqwl2wls.py
+	$(PYTHON) frqwl2wls.py $@ $< --minfreq=10
+
+out/cssk-all-intersect.wls: out/cstenten.wls out/sktenten.wls
+	grep -Fxf $< out/sktenten.wls > $@
+
+out/cssk-all-join.wls: out/cstenten.wls out/sktenten.wls
+	sort out/cstenten.wls out/sktenten.wls | uniq > $@
 
 out/cssk-all-weighted.wlh: out/cssk-all-join.wlh out/cssk-all-intersect.wlh src/sk-corrections.wlh generate-weighted-czechoslovak-wl.py
 	python3 generate-weighted-czechoslovak-wl.py
 
-csskhyphen.pat: src/cs-sojka-sizeoptimized.par out/cssk-all-weighted.wlh # make sure PATTERNTOUSE is good czech patterns
+out/csskhyphen.pat: src/cs-sojka-sizeoptimized.par out/cssk-all-weighted.wlh # make sure PATTERNTOUSE is good czech patterns
 	rm -f out/pattern.*
 	recode UTF8..ISO-8859-2 out/cssk-all-weighted.wlh
 	(cd out && bash ../make-full-pattern.sh cssk-all-weighted.wlh ../czech.tra ../$<)
