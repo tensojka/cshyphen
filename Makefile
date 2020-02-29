@@ -1,9 +1,14 @@
 PYTHON=python3
-PATTERNTOUSE=out/skhyphen.pat
+PATTERNTOUSE=out/cs-sojka-correctoptimized.pat
 WORDLISTTOUSE=src/cs-all-cstenten.wlh
 VALIDATIONWL=src/cs-lemma-ujc-4.wlh
 
 .SECONDARY: 
+
+%.errors: %.pat $(VALIDATIONWL)
+	rm csskhyphen.wleval
+	make csskhyphen.wleval
+	mv pattmp.1 $@
 
 %.wleval: %.pat $(VALIDATIONWL)
 	recode UTF8..ISO-8859-2 $(VALIDATIONWL)
@@ -57,7 +62,7 @@ out/cstenten.frqwl: out/cstenten17.frqwl out/cstenten12.frqwl frqwl2wls.py
 out/cssk-all-weighted.wlh: out/cssk-all-join.wlh out/cssk-all-intersect.wlh src/sk-corrections.wlh generate-weighted-czechoslovak-wl.py
 	python3 generate-weighted-czechoslovak-wl.py
 
-csskhyphen.pat: src/cs-sojka-correctoptimized.par out/cssk-all-weighted.wlh # make sure PATTERNTOUSE is good czech patterns
+csskhyphen.pat: src/cs-sojka-sizeoptimized.par out/cssk-all-weighted.wlh # make sure PATTERNTOUSE is good czech patterns
 	rm -f out/pattern.*
 	recode UTF8..ISO-8859-2 out/cssk-all-weighted.wlh
 	(cd out && bash ../make-full-pattern.sh cssk-all-weighted.wlh ../czech.tra ../$<)
