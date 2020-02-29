@@ -2,6 +2,8 @@
 
 See paper [Unreasonable Effectiveness of Pattern Generation](paper.pdf).
 
+Now working on implementing ideas described in paper [Towards Universal Hyphenation Patterns](paper-towards-universal.pdf).
+
 Inspired by German hyphenation patterns, see [git repo](http://repo.or.cz/wortliste.git).
 
 ## Prerequisites
