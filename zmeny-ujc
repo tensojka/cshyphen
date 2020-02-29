@@ -1,0 +1,36 @@
+ignore this file, describes changes made against original wordlist by the Czech Language Institute
+
+/ znamená přidaný dělící bod, _ odebraný
+
+1. optimalizace pro vzory
+
+ - aba-xi/ál-ní
+
+ - přípony ský, ční (????)
+   - ab-s-ti-nen-č/ní
+ - dělení za prvním písmenem
+   - a/be-ran-t-ní
+   - a/bio-tic-ký
+   - a/blu-en-ci-um
+ - další možná dělení
+   - ab-re-vi/a-ce
+   - ab-rup/t-ně
+   - 
+
+2. chyby, nekonzistence
+ - abbé X ab_bé-ov-s/ký
+ - abo-li-ci/o-nis-mus
+ - ab-re/ak-tiv-ní X ab-re-ak-ce
+ - ab-s-ten-ce X ab-s/te-no-vat
+ - ace/t-al-de-hyd X ace-tal-de-hy-do-vý
+
+
+3. WTF
+ - abi-tu-ri/ent
+
+
+nalezené nekonzistence v validačním wl
+
+americko=český;ame=ric=ko=čes=ký
+anglicko=český;ang=lic=ko=če=s=ký
+na za=čát=ku
