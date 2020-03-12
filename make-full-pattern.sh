@@ -47,4 +47,4 @@ for i in 1 2 3 4 5 6 7 8; do
 
 done
 
-cp pattern.`expr ${#good_bad_thres[@]} - 1` pattern.final
+cp pattern.`expr ${#good_bad_thres[@]}` pattern.final
