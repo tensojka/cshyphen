@@ -57,7 +57,7 @@ out/cstenten.wls: out/cstenten17.frqwl out/cstenten12.frqwl frqwl2wls.py
 	$(PYTHON) frqwl2wls.py $@ $< out/cstenten12.frqwl --minfreq=100
 
 out/sktenten.wls: out/sktenten11.frqwl frqwl2wls.py
-	$(PYTHON) frqwl2wls.py $@ $< --minfreq=10
+	$(PYTHON) frqwl2wls.py $@ $< --minfreq=25
 
 out/cssk-all-intersect.wls: out/cstenten.wls out/sktenten.wls
 	grep -Fxf $< out/sktenten.wls > $@
@@ -68,12 +68,15 @@ out/cssk-all-join.wls: out/cstenten.wls out/sktenten.wls
 out/cssk-all-weighted.wlh: out/cssk-all-join.wlh out/cssk-all-intersect.wlh src/sk-corrections.wlh generate-weighted-czechoslovak-wl.py
 	python3 generate-weighted-czechoslovak-wl.py
 
-out/csskhyphen.pat: src/cs-sojka-sizeoptimized.par out/cssk-all-weighted.wlh # make sure PATTERNTOUSE is good czech patterns
+out/csskhyphen.pat: src/cs-sojka-correctoptimized.par out/cssk-all-weighted.wlh # make sure PATTERNTOUSE is good czech patterns
 	rm -f out/pattern.*
 	recode UTF8..ISO-8859-2 out/cssk-all-weighted.wlh
 	(cd out && bash ../make-full-pattern.sh cssk-all-weighted.wlh ../czech.tra ../$<)
 	recode ISO-8859-2..UTF8 out/cssk-all-weighted.wlh
 	mv out/pattern.final $@
+
+out/cssk.pat: out/csskhyphen.pat
+	echo "The correct filename is csskhyphen.pat"
 
 src/cs-all-cstenten.wls: cstenten.out #majka (morphological analyzer) output
 	grep '^[$@]' /tmp/cstenten.out \
