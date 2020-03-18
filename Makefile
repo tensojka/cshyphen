@@ -1,6 +1,5 @@
 PYTHON=python3
-PATTERNTOUSE=out/cs-sojka-correctoptimized.pat
-WORDLISTTOUSE=src/cs-all-cstenten.wlh
+WORDLISTTOUSE=out/cssk-all-weighted.wlh
 VALIDATIONWL=src/cs-lemma-ujc-4.wlh
 
 .SECONDARY: 
@@ -31,18 +30,24 @@ out/%: src/%
 	cp $< $@
 
 # hyphenate
-%.wlh: %.wls $(PATTERNTOUSE)
+%.wlh: %.wls out/hyphenator-patterns.pat
 	recode UTF8..ISO-8859-2 $<
 	printf "%s\n%s\n%s\n%s" "1 1" \
 	"1 1" \
 	"1 1 1" \
 	"y" \
-	| ./patgen $< $(PATTERNTOUSE) /dev/null czech.tra
+	| ./patgen $< out/hyphenator-patterns.pat /dev/null czech.tra
 	mv pattmp.1 $@
 	recode ISO-8859-2..UTF8 $<
 	recode ISO-8859-2..UTF8 $@
 	sed -i -e 's/\./-/g' $@
 
+out/hyphenator-patterns.pat: src/cs-sojka-correctoptimized.par
+	rm -f out/pattern.*
+	recode UTF8..ISO-8859-2 src/cs-all-cstenten.wlh
+	(cd out && bash ../make-full-pattern.sh ../src/cs-all-cstenten.wlh ../czech.tra ../$<)
+	recode ISO-8859-2..UTF8 src/cs-all-cstenten.wlh
+	mv out/pattern.final $@
 %.wls: %.wl wl2wls.py
 	$(PYTHON) wl2wls.py $@ $<
 
@@ -57,7 +62,7 @@ out/cstenten.wls: out/cstenten17.frqwl out/cstenten12.frqwl frqwl2wls.py
 	$(PYTHON) frqwl2wls.py $@ $< out/cstenten12.frqwl --minfreq=100
 
 out/sktenten.wls: out/sktenten11.frqwl frqwl2wls.py
-	$(PYTHON) frqwl2wls.py $@ $< --minfreq=50
+	$(PYTHON) frqwl2wls.py $@ $< --minfreq=30
 
 out/cssk-all-intersect.wls: out/cstenten.wls out/sktenten.wls
 	grep -Fxf $< out/sktenten.wls > $@
@@ -68,7 +73,7 @@ out/cssk-all-join.wls: out/cstenten.wls out/sktenten.wls
 out/cssk-all-weighted.wlh: out/cssk-all-join.wlh out/cssk-all-intersect.wlh src/sk-corrections.wlh generate-weighted-czechoslovak-wl.py
 	python3 generate-weighted-czechoslovak-wl.py
 
-out/csskhyphen.pat: src/csskhyphen.par out/cssk-all-weighted.wlh # make sure PATTERNTOUSE is good czech patterns
+out/csskhyphen.pat: src/csskhyphen.par out/cssk-all-weighted.wlh
 	rm -f out/pattern.*
 	recode UTF8..ISO-8859-2 out/cssk-all-weighted.wlh
 	(cd out && bash ../make-full-pattern.sh cssk-all-weighted.wlh ../czech.tra ../$<)
