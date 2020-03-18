@@ -1,21 +1,27 @@
 # Language-independent system for hyphenation pattern generation with `patgen`
 
-See paper [Unreasonable Effectiveness of Pattern Generation](paper.pdf).
-
-Now working on implementing ideas described in paper [Towards Universal Hyphenation Patterns](paper-towards-universal.pdf).
+The first paper [Unreasonable Effectiveness of Pattern Generation](paper.pdf) describes how we bootstrapped the generation of Czech hyphenation patterns. Second paper [Towards Universal Hyphenation Patterns](paper-towards-universal.pdf) expands on the idea of universal hyphenation patterns. Czechoslovak patterns were then published in an update of *Towards Universal*, [Data Driven Development of New Czechoslovak Hyphenation Patterns](cssk.pdf).
 
 Inspired by German hyphenation patterns, see [git repo](http://repo.or.cz/wortliste.git).
 
-## Prerequisites
+## Usage: generation of Czechoslovak patterns
 
-- GNU coreutils & friends
+First, install prerequisites:
+
+- GNU coreutils
 - recode
 - python3
 - make
 
-## Filename endings in use
+Then run `make clean; make`. `out/csskhyphen.pat` contains generated Czechoslovak patterns.
 
-See sketch.jpg for a graphical overview.
+### File structure and naming scheme
+
+Source files (made by humans) can be found in the directory `src/`. All machine-generated files can be generated into the directory `out/`.
+
+Files are mostly named like this: `lang-type-subtype-version.\[wl/pat/wleval]`
+
+We also use a few nonstandard file extensions.
 
 - .wlh 
     - hyphenated word list
@@ -23,7 +29,7 @@ See sketch.jpg for a graphical overview.
     - newline separated list of unhyphenated words
 - .wl
     - word;wo=rd
-    - the format to be edited by humans
+    - contains both unhyphenated and hyphenated words
 - .par
     - parameters for patgen
 - .pat
@@ -31,12 +37,6 @@ See sketch.jpg for a graphical overview.
 - .wleval
     - patgen output after validation pass
     - contains validation statistics
-
-## Naming scheme
-
-lang-type-subtype-version.\[wl/pat/wleval]
-
-.,$s/\([plkmnjhbgtvfžřčšrcdxszwq][\*\.-]\)s[\*\.-]ký/\1ský/g
 
 ## Licenses
 
