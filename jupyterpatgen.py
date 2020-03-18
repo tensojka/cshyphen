@@ -23,7 +23,7 @@ def train(directory, parfile, makeargs="", output_markdown=False) -> List["Level
     Patterns will be trained on wordlist specified in the Make variable WORDLISTTOUSE."""
 
     ts = time.time()
-    subprocess.check_output("cd "+directory+"; rm out/"+parfile+".pat; make "+makeargs+" -s out/"+parfile+".pat", shell=True, stderr=subprocess.STDOUT)
+    subprocess.check_output("cd "+directory+"; rm out/"+parfile+".pat; nice make "+makeargs+" -s out/"+parfile+".pat", shell=True, stderr=subprocess.STDOUT)
     took = time.time() - ts 
 
     levels = []
@@ -42,6 +42,12 @@ def train(directory, parfile, makeargs="", output_markdown=False) -> List["Level
     else:
         return levels
     
+def show_stats(pattern, directory=".") -> str:
+    md = "## Pattern "+pattern+"\n\n"
+    lines, kbytes = _get_pattern_stats(directory, pattern)
+    md += lines+" patterns, "+str(kbytes)+" kB\n"
+    return md
+
 def validate(directory, pattern) -> str:
     """Run validation of a given pattern and output a md-formatted summary.
     
