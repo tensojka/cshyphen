@@ -17,7 +17,7 @@ def _parse_params(parfile):
     exec(open(parfile).read())
     return (pat_start_finish, good_bad_thres)
 
-def train(directory, parfile, makeargs="", output_markdown=False) -> List["LevelStats"]:
+def train(directory, parfile, makeargs="", output_markdown=True) -> List["LevelStats"]:
     """Make patterns with the given parfile and makeargs. 
     Supply a parameter name like liang, not out/liang.par or out/liang.
     Patterns will be trained on wordlist specified in the Make variable WORDLISTTOUSE."""
