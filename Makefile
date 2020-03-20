@@ -2,7 +2,12 @@ PYTHON=python3
 WORDLISTTOUSE=out/cssk-all-weighted.wlh
 VALIDATIONWL=src/cs-lemma-ujc-4.wlh
 
-.SECONDARY: 
+out/csskhyphen.pat: src/csskhyphen.par out/cssk-all-weighted.wlh
+	rm -f out/pattern.*
+	recode UTF8..ISO-8859-2 out/cssk-all-weighted.wlh
+	(cd out && bash ../make-full-pattern.sh cssk-all-weighted.wlh ../czech.tra ../$<)
+	recode ISO-8859-2..UTF8 out/cssk-all-weighted.wlh
+	mv out/pattern.final $@
 
 %.errors: %.pat $(VALIDATIONWL)
 	rm csskhyphen.wleval
@@ -72,13 +77,6 @@ out/cssk-all-join.wls: out/cstenten.wls out/sktenten.wls
 
 out/cssk-all-weighted.wlh: out/cssk-all-join.wlh out/cssk-all-intersect.wlh src/sk-corrections.wlh generate-weighted-czechoslovak-wl.py
 	python3 generate-weighted-czechoslovak-wl.py
-
-out/csskhyphen.pat: src/csskhyphen.par out/cssk-all-weighted.wlh
-	rm -f out/pattern.*
-	recode UTF8..ISO-8859-2 out/cssk-all-weighted.wlh
-	(cd out && bash ../make-full-pattern.sh cssk-all-weighted.wlh ../czech.tra ../$<)
-	recode ISO-8859-2..UTF8 out/cssk-all-weighted.wlh
-	mv out/pattern.final $@
 
 out/cssk.pat: out/csskhyphen.pat
 	echo "The correct filename is csskhyphen.pat"
