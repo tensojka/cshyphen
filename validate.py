@@ -89,12 +89,15 @@ def validate(wlh, pat):
         for pos, char in enumerate(valid_hyph_word):
             try:
                 if char == "-" and pat_hyph_word[pos+offset] == "-":
-                    good += 1
+                    if pos > 1 and pos < (len(pat_hyph_word)+offset-2):
+                        good += 1
                 elif char == "-" and pat_hyph_word[pos+offset] != "-":
-                    missed += 1
+                    if pos > 1 and pos < (len(pat_hyph_word)+offset-2):
+                        missed += 1
                     offset -= 1
                 elif char != "-" and pat_hyph_word[pos+offset] == "-":
-                    bad += 1
+                    if pos > 1 and pos < (len(pat_hyph_word)+offset-2):
+                        bad += 1
                     offset += 1
             except IndexError:
                 print("Val: "+valid_hyph_word)
@@ -112,10 +115,22 @@ def validate(wlh, pat):
     print("bad: " + str(bad) + ", bad %: " + str(round(100*(bad/total),2)))
 
 
-
+wlh = "src/cs-lemma-ujc-4.wlh"
 
 #validate("out/cssk-all-weighted.wlh", "out/csskhyphen.pat")
+print("ground truth: "+wlh)
 print("cssk results:")
-validate("src/cs-lemma-ujc-1.wlh", "out/csskhyphen.pat")
+validate(wlh, "out/csskhyphen.pat")
 print("old czhyph results:")
-validate("src/cs-lemma-ujc-1.wlh", "src/czhyphen.pat")
+validate(wlh, "src/czhyphen.pat")
+
+wlh = "out/cssk-all-weighted.wlh"
+
+print("---------")
+print("ground truth: "+wlh)
+print("cssk results:")
+validate(wlh, "out/csskhyphen.pat")
+#print("old czhyph results:")
+#validate(wlh, "src/czhyphen.pat")
+#print("old skhyph")
+#validate(wlh, "src/skhyphen.pat")
