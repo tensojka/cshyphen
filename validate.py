@@ -1,7 +1,12 @@
 """ Adapted from https://nedbatchelder.com/code/modules/hyphenate.py """
 
 import re
+import random
 from typing import List
+import datetime
+import os
+from statistics import fmean 
+from typing import Tuple
 
 class Hyphenator:
     def __init__(self, patterns: List[str], exceptions=''):
@@ -68,6 +73,7 @@ class Hyphenator:
 
 # Given a filename of a hyphenated .wlh wordlist and a filename of
 # patterns to use, report how many hyphenation points were correctly found.
+# Returns (good, bad, missed)
 def validate(wlh, pat):
     patfile = open(pat, "r")
     patterns = patfile.read().split('\n')
@@ -109,28 +115,51 @@ def validate(wlh, pat):
         #    print(pat_hyph_points)
         #    print("Val: "+valid_hyph_word)
         #    print("Pat: "+pat_hyph_word)
-    total = good + missed + bad
-    print("good: " + str(good) + ", good %: " + str(round(100*(good/total),2)))
-    print("missed: " + str(missed) + ", missed %: " + str(round(100*(missed/total),2)))
-    print("bad: " + str(bad) + ", bad %: " + str(round(100*(bad/total),2)))
+    #total = good + missed + bad
+    #print("good: " + str(good) + ", good %: " + str(round(100*(good/total),2)))
+    #print("missed: " + str(missed) + ", missed %: " + str(round(100*(missed/total),2)))
+    #print("bad: " + str(bad) + ", bad %: " + str(round(100*(bad/total),2)))
+    return (good, bad, missed)
 
+
+def k_cross_val(k, seed) -> Tuple[float, float, float]:
+    start = datetime.datetime.now()
+    passes = []
+    for i in range(1, k+1):
+        random.seed(seed)
+        with open("out/holdout.wlh", "w") as holdout:
+            with open("out/training.wlh", "w") as training:
+                with open("out/cssk-all-weighted.wlh","r") as f:
+                    for line in f:
+                        r = random.randint(1, 10)
+                        if r == i:
+                            holdout.write(line)
+                        else:
+                            training.write(line)
+        os.system("make out/training.pat")
+        good, bad, missed = validate("out/holdout.wlh", "out/training.pat")
+        total = good + bad + missed
+        good_pct = 100*(good/total)
+        bad_pct = 100*(bad/total)
+        missed_pct = 100*(missed/total)
+        passes.append((good_pct, bad_pct, missed_pct))
+        os.system("rm out/training.pat")
+    assert len(passes) == k
+    print(str(k)+" passes done")
+    print("Took: "+str(datetime.datetime.now()-start))
+    return passes
+    
 
 wlh = "src/cs-lemma-ujc-4.wlh"
 
 #validate("out/cssk-all-weighted.wlh", "out/csskhyphen.pat")
-print("ground truth: "+wlh)
-print("cssk results:")
-validate(wlh, "out/csskhyphen.pat")
-print("old czhyph results:")
-validate(wlh, "src/czhyphen.pat")
+#print("ground truth: "+wlh)
+#print("cssk results:")
+#validate(wlh, "out/csskhyphen.pat")
 
 wlh = "out/cssk-all-weighted.wlh"
 
-print("---------")
-print("ground truth: "+wlh)
-print("cssk results:")
-validate(wlh, "out/csskhyphen.pat")
-#print("old czhyph results:")
-#validate(wlh, "src/czhyphen.pat")
-#print("old skhyph")
-#validate(wlh, "src/skhyphen.pat")
+#print("---------")
+#print("ground truth: "+wlh)
+#print("cssk results:")
+#validate(wlh, "out/csskhyphen.pat")

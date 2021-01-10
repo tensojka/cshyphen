@@ -8,6 +8,15 @@ out/csskhyphen.pat: src/csskhyphen.par out/cssk-all-weighted.wlh
 	(cd out && bash ../make-full-pattern.sh cssk-all-weighted.wlh ../czech.tra ../$<)
 	recode ISO-8859-2..UTF8 out/cssk-all-weighted.wlh
 	mv out/pattern.final $@
+	recode ISO-8859-2..UTF8 $@
+
+out/training.pat: out/training.wlh src/csskhyphen.par
+		rm -f out/pattern.*
+		recode UTF8..ISO-8859-2 $<
+		(cd out && bash ../make-full-pattern.sh training.wlh ../czech.tra ../src/csskhyphen.par)
+		recode ISO-8859-2..UTF8 $<
+		mv out/pattern.final $@
+		recode ISO-8859-2..UTF8 $@
 
 %.errors: %.pat $(VALIDATIONWL)
 	rm csskhyphen.wleval
