@@ -122,7 +122,7 @@ def validate(wlh, pat):
     return (good, bad, missed)
 
 
-def k_cross_val(k, seed) -> Tuple[float, float, float]:
+def k_cross_val(k, seed="eval") -> Tuple[float, float, float]:
     start = datetime.datetime.now()
     passes = []
     for i in range(1, k+1):
