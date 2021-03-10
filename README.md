@@ -1,8 +1,26 @@
-# Language-independent system for hyphenation pattern generation with `patgen`
+# Towards Universal Hyphenation Patterns: Czechoslovak hyphenation patterns
 
-The first paper [Unreasonable Effectiveness of Pattern Generation](paper.pdf) describes how we bootstrapped the generation of Czech hyphenation patterns. Second paper [Towards Universal Hyphenation Patterns](paper-towards-universal.pdf) expands on the idea of universal hyphenation patterns. Czechoslovak patterns were then published in an update of *Towards Universal*, [Data Driven Development of New Czechoslovak Hyphenation Patterns](cssk.pdf).
+## *Why* create czechoslovak hyphenation patterns?
+
+Current Czech patterns were generated in 1995. Not only has the language evolved, but better training data for the patterns became available, making development of superior patterns possible. Why not generate Czech patterns only?
+
+There is no reliable hyphenated wordlist available for Slovak to serve as training data. Whereas the Institute of the Czech Language provided a hyphenated form for every word in its database, there is no equivalent resource available for Slovak.
+
+Because the languages are very similar and there are nearly no words that have the same spelling but different hyphenation, we can generate patterns that achieve better results than both current monolingual patterns.
+
+## About
+
+The first paper [Unreasonable Effectiveness of Pattern Generation](paper.pdf) describes how we bootstrapped the generation of Czech hyphenation patterns. Second paper [Towards Universal Hyphenation Patterns](paper-towards-universal.pdf) expands on the idea of universal hyphenation patterns.
 
 Inspired by German hyphenation patterns, see [git repo](http://repo.or.cz/wortliste.git).
+
+## Usage: pregenerated patterns
+
+You can find generated patterns in the file `csskhyphen.pat`.
+
+## Pattern evaluation
+
+See [Jupyter notebook](evaluation.ipynb).
 
 ## Usage: generation of Czechoslovak patterns
 
