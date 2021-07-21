@@ -68,9 +68,8 @@ out/hyphenator-patterns.pat: src/cs-sojka-correctoptimized.par
 %.wlh: %.wl wl2wlh.py
 	$(PYTHON) wl2wlh.py $@ $<
 
-out/cstenten%.frqwl: src/cstenten%.frqwl # lowercase
-	cp $< $@
-	sed -i -e 's/./\L\0/g' $@
+out/%.frqwl: src/%.frqwl # lowercase
+	tr '[:upper:]' '[:lower:]' < $< > $@
 
 out/cstenten.wls: out/cstenten17.frqwl out/cstenten12.frqwl frqwl2wls.py
 	$(PYTHON) frqwl2wls.py $@ $< out/cstenten12.frqwl --minfreq=100
