@@ -3,3 +3,4 @@ wortliste/
 out/
 __pycache__/
 .ipynb_checkpoints/
+.venv/
