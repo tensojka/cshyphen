@@ -1,2 +1,1 @@
-# cshyphen
-MotorolaMobilityLLC bugbounty POC by @nvk0x
+# MotorolaMobilityLLC bugbounty POC by @nvk0x
